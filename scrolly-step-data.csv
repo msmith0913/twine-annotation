@@ -1,0 +1,8 @@
+ContentType,FilePath,Latitude,Longitude,ZoomLevel,Text
+image,"./media/lovejoy.jpg",,,1,"This is Lovejoy Library, but imported from a CSV file"
+image,"./media/lovejoy.jpg",,,1.5,"It's a fortress of knowledge"
+map,,38.7940, -89.9979, 19,"It is located in the heart of SIU's Edwardsville campus"
+map,,38.8078, -89.9636, 12,"Edwardsville, Illinois is where the -90 degree meridian meets the 38 degree parallel"
+map,,38.9,-90.18,12,"It is 30 miles from Alton IL, the historic home of Elijah P. Lovejoy, the library's namesake"
+image,"./media/elijah-lovejoy.jpg",,,,"Lovejoy was an ardent abolitionist newspaper editor"
+image,"./media/lovejoy-mob.jpg",,,,"He was killed by an angry pro-slavery mob"
