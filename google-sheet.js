@@ -22,11 +22,15 @@ var googleSheetURL =
 // 7. Copy the key and replace the one below
 var googleApiKey = "AIzaSyA_HsSEP3PPc7CNU6xg3qxZYqJYKvX21cw";
 
-// Extract the spreadsheet ID from the URL
-const spreadsheetId = googleSheetURL.match(/\/d\/([a-zA-Z0-9-_]+)/)[1];
+const spreadsheetId = extractSpreadsheetIDFromURL(googleSheetURL);
+function extractSpreadsheetIDFromURL(url) {
+  return url.match(/\/d\/([a-zA-Z0-9-_]+)/)[1];
+}
 
-// Construct the Google Sheets API endpoint
-const apiEndpoint = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Steps?key=${googleApiKey}`;
+const apiEndpoint = createGoogleSheetsAPIEndpoint(spreadsheetId, googleApiKey);
+function createGoogleSheetsAPIEndpoint() {
+  return `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Steps?key=${googleApiKey}`;
+}
 
 // Function to fetch data from Google Sheets
 export async function fetchDataFromGoogleSheet() {
