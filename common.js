@@ -38,11 +38,10 @@ export class ScrollyError extends Error {
   }
 
   logError() {
-    console.log(
-      "Error: " + this.Action + "\n" + this.Message + "\n" + this.Hint
-    );
-
     const stackLines = this.stack.split("\n");
-    console.log(`(at ${stackLines[1]})`);
+
+    console.error(
+      "Error: " + this.Action + "\n" + this.Message + "\n" + stackLines[1]
+    );
   }
 }
