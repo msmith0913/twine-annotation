@@ -23,17 +23,21 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   //createScrollyContentFromCSVFile();
   try {
-    const stepDataArray = await fetchAllDataFromGoogleSheet();
-    createScrollyContentFromCSVData(stepDataArray);
+    const allScrollyData = await fetchAllDataFromGoogleSheet();
+    createAllScrollyContentInHTML(allScrollyData);
   } catch (scrollyError) {
     displayError(scrollyError);
   }
 });
 
-/* This creates all the steps in HTML for the scrolly story from
-    data read from a CSV file.
+function createAllScrollyContentInHTML(allScrollyData) {
+  createStepsContentInHtml(allScrollyData.StepData);
+}
+
+/* This creates all the steps in HTML for the scrolly story 
+    from a stepDataArry 
 */
-function createScrollyContentFromCSVData(stepDataArray) {
+function createStepsContentInHtml(stepDataArray) {
   console.log("allStepData: " + JSON.stringify(stepDataArray));
 
   var stepNumber = 1;

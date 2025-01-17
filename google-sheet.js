@@ -1,5 +1,4 @@
-import { StepData } from "./common.js";
-import { ScrollyError } from "./common.js";
+import { ScrollyData, StoryData, StepData, ScrollyError } from "./common.js";
 
 // The Google Sheet below is a template. You can copy it to your Google Drive and use it to create your own scroll story.
 // Use the URL from the browser address bar replacing the one below.
@@ -7,7 +6,7 @@ import { ScrollyError } from "./common.js";
 // Google Sheet File menu -> Share-> Publish to Web -> Publish Entire Document as Web Page
 // Also, you must Share the sheet so that anyone with a link can access it
 // Share button at top right of sheet -> General Access -> Anyone with the link -> Viewer
-var googleSheetURL =
+const googleSheetURL =
   "https://docs.google.com/spreadsheets/d/1Nkq7DLecFxgwSs9tC0f_k0tTNTHPrsV3Bqf9L98aSuQ/edit?gid=0#gid=0";
 
 //googleSheetURL =
@@ -24,7 +23,11 @@ var googleSheetURL =
 // 6. Click on Create Credentials
 // 7. Restrict the key under API restrictions and restrict to Google Sheets API
 // 7. Copy the key and replace the one below
-var googleApiKey = "AIzaSyA_HsSEP3PPc7CNU6xg3qxZYqJYKvX21cw";
+const googleApiKey = "AIzaSyA_HsSEP3PPc7CNU6xg3qxZYqJYKvX21cw";
+
+const sheetNames = ["Story", "Steps"];
+const storyIndex = 0;
+const stepsIndex = 1;
 
 const spreadsheetId = extractSpreadsheetIDFromURL(googleSheetURL);
 function extractSpreadsheetIDFromURL(url) {
@@ -37,8 +40,15 @@ function extractSpreadsheetIDFromURL(url) {
 
 const apiEndpoint = createGoogleSheetsAPIEndpoint(spreadsheetId, googleApiKey);
 function createGoogleSheetsAPIEndpoint() {
-  //return `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?key=${apiKey}`;
-  return `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Steps?key=${googleApiKey}`;
+  var rangesParameter = ""; // each range in a google sheet is a sheet (tab) name
+  sheetNames.map((sheetName, i) => {
+    rangesParameter += `ranges=${sheetName}`;
+    if (i < sheetNames.length - 1) {
+      rangesParameter += "&";
+    }
+  });
+
+  return `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values:batchGet?${rangesParameter}&key=${googleApiKey}`;
 }
 
 // Function to fetch data from Google Sheets
@@ -47,13 +57,12 @@ export async function fetchAllDataFromGoogleSheet() {
     const response = await fetch(apiEndpoint);
     const responseJson = await response.json();
     if (!response.ok) {
-      throw createErrorFromGoogleSheetResponse(responseJson.error);
+      throwErrorFromGoogleSheetResponse(responseJson.error);
     }
 
-    return convertGoogleSheetDataToStepDataArray(responseJson.values);
+    return convertGoogleSheetDataToScrollyData(responseJson);
   } catch (error) {
-    //TODO: check if other errors have use the error.message pattern
-    // if so, don't need to check instanceof ScrollyError
+    // Convert error to ScrollyError if it is not already
     if (!(error instanceof ScrollyError)) {
       error = new ScrollyError(
         "Fetching data from Google Sheet " + googleSheetURL,
@@ -63,15 +72,45 @@ export async function fetchAllDataFromGoogleSheet() {
     throw error;
   }
 }
-function createErrorFromGoogleSheetResponse(responseError) {
+function throwErrorFromGoogleSheetResponse(responseError) {
+  throwMissingSheetNameErrorIfExists(responseError);
+
   throw new ScrollyError(
     "Fetching data from Google Sheet " + googleSheetURL,
-    responseError.Message
+    responseError.message
   );
 }
 
+function throwMissingSheetNameErrorIfExists(responseError) {
+  sheetNames.forEach((sheetName) => {
+    if (
+      responseError.message.includes(sheetName) &&
+      responseError.message.includes("Unable to parse range")
+    ) {
+      throw new ScrollyError(
+        "Fetching data from Google Sheet " + googleSheetURL,
+        `Sheet name "${sheetName}" not found in the Google Sheet.`
+      );
+    }
+  });
+}
+
+function convertGoogleSheetDataToScrollyData(sheetsArray) {
+  const storyData = convertGoogleSheetDataToStoryData(
+    sheetsArray.valueRanges[storyIndex].values
+  );
+  const stepDataArray = convertGoogleSheetDataToStepDataArray(
+    sheetsArray.valueRanges[stepsIndex].values
+  );
+  return new ScrollyData(storyData, stepDataArray);
+}
+
+function convertGoogleSheetDataToStoryData(values) {
+  // TODO
+}
+
 function convertGoogleSheetDataToStepDataArray(values) {
-  values.shift(); // remove the header row
+  values.shift(); // remove the header row  TODO: Catch error if no header row & verify header row is valid
 
   const stepDataArray = values.map((row) => {
     const [contentType, FilePath, Latitude, Longitude, ZoomLevel, Text] = row;
