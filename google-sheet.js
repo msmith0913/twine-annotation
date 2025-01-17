@@ -10,6 +10,9 @@ import { ScrollyError } from "./common.js";
 var googleSheetURL =
   "https://docs.google.com/spreadsheets/d/1Nkq7DLecFxgwSs9tC0f_k0tTNTHPrsV3Bqf9L98aSuQ/edit?gid=0#gid=0";
 
+//googleSheetURL =
+//  "docs.google.com/spreadsheets/d/1qg8Ap_YeYf-vpS5QPNAFX8KJ3IEo_r_TAigIcWwHxmU/edit?gid=1843475809#gid=1843475809";
+
 // An API Key is required to read a google sheet from an application. It is generated at https://console.developers.google.com
 // and if you plan to publish this scrolly story on your own standalone site, you will need to generate your own key.
 // To generate your own key:
@@ -25,16 +28,21 @@ var googleApiKey = "AIzaSyA_HsSEP3PPc7CNU6xg3qxZYqJYKvX21cw";
 
 const spreadsheetId = extractSpreadsheetIDFromURL(googleSheetURL);
 function extractSpreadsheetIDFromURL(url) {
-  return url.match(/\/d\/([a-zA-Z0-9-_]+)/)[1];
+  try {
+    return url.match(/\/d\/([a-zA-Z0-9-_]+)/)[1];
+  } catch (error) {
+    return "InvalidGoogleSheetURL";
+  }
 }
 
 const apiEndpoint = createGoogleSheetsAPIEndpoint(spreadsheetId, googleApiKey);
 function createGoogleSheetsAPIEndpoint() {
+  //return `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?key=${apiKey}`;
   return `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Steps?key=${googleApiKey}`;
 }
 
 // Function to fetch data from Google Sheets
-export async function fetchDataFromGoogleSheet() {
+export async function fetchAllDataFromGoogleSheet() {
   try {
     const response = await fetch(apiEndpoint);
     const responseJson = await response.json();
@@ -58,7 +66,7 @@ export async function fetchDataFromGoogleSheet() {
 function createErrorFromGoogleSheetResponse(responseError) {
   throw new ScrollyError(
     "Fetching data from Google Sheet " + googleSheetURL,
-    responseError.message
+    responseError.Message
   );
 }
 

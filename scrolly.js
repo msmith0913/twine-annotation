@@ -1,7 +1,7 @@
 import { StepData } from "./common.js";
 import { ScrollyError } from "./common.js";
 
-import { fetchDataFromGoogleSheet } from "./google-sheet.js";
+import { fetchAllDataFromGoogleSheet } from "./google-sheet.js";
 
 let main = null;
 let scrolly = null;
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   //createScrollyContentFromCSVFile();
   try {
-    const stepDataArray = await fetchDataFromGoogleSheet();
+    const stepDataArray = await fetchAllDataFromGoogleSheet();
     createScrollyContentFromCSVData(stepDataArray);
   } catch (scrollyError) {
     displayError(scrollyError);
@@ -75,10 +75,10 @@ function isParseError(parseErrors, papaErrors) {
 
 function displayError(stepError) {
   const errorAction = document.getElementById("error-action");
-  errorAction.innerHTML = stepError.action;
+  errorAction.innerHTML = stepError.Action;
 
   const errorMessage = document.getElementById("error-message");
-  errorMessage.innerHTML = stepError.message;
+  errorMessage.innerHTML = stepError.Message;
 
   const errorContainer = document.getElementById("error-container");
   errorContainer.style.display = "flex"; // Show the error container
