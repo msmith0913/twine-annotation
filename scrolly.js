@@ -86,6 +86,8 @@ function displayError(stepError) {
 
   const errorContainer = document.getElementById("error-container");
   errorContainer.style.display = "flex"; // Show the error container
+
+  stepError.logError();
 }
 
 // scrollama event handlers

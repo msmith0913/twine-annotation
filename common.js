@@ -25,10 +25,24 @@ export class StepData {
   }
 }
 
-export class ScrollyError {
+export class ScrollyError extends Error {
   constructor(Action, Message, Hint) {
+    super(Message);
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, ScrollyError);
+    }
+
     this.Action = Action;
     this.Message = Message;
     this.Hint = Hint;
+  }
+
+  logError() {
+    console.log(
+      "Error: " + this.Action + "\n" + this.Message + "\n" + this.Hint
+    );
+
+    const stackLines = this.stack.split("\n");
+    console.log(`(at ${stackLines[1]})`);
   }
 }
