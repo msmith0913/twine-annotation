@@ -1,4 +1,5 @@
-import { StepData } from "./scrolly.js";
+import { StepData } from "./common.js";
+import { ScrollyError } from "./common.js";
 
 // The Google Sheet below is a template. You can copy it to your Google Drive and use it to create your own scroll story.
 // Use the URL from the browser address bar replacing the one below.
@@ -36,12 +37,29 @@ function createGoogleSheetsAPIEndpoint() {
 export async function fetchDataFromGoogleSheet() {
   try {
     const response = await fetch(apiEndpoint);
-    const data = await response.json();
+    const responseJson = await response.json();
+    if (!response.ok) {
+      throw createErrorFromGoogleSheetResponse(responseJson.error);
+    }
 
-    return convertGoogleSheetDataToStepDataArray(data.values);
+    return convertGoogleSheetDataToStepDataArray(responseJson.values);
   } catch (error) {
-    console.error("Error fetching data from Google Sheets:", error);
+    //TODO: check if other errors have use the error.message pattern
+    // if so, don't need to check instanceof ScrollyError
+    if (!(error instanceof ScrollyError)) {
+      error = new ScrollyError(
+        "Fetching data from Google Sheet " + googleSheetURL,
+        error.toString()
+      );
+    }
+    throw error;
   }
+}
+function createErrorFromGoogleSheetResponse(responseError) {
+  throw new ScrollyError(
+    "Fetching data from Google Sheet " + googleSheetURL,
+    responseError.message
+  );
 }
 
 function convertGoogleSheetDataToStepDataArray(values) {

@@ -1,16 +1,7 @@
-import { fetchDataFromGoogleSheet } from "./google-sheet.js";
+import { StepData } from "./common.js";
+import { ScrollyError } from "./common.js";
 
-// Defines all the data needed for a step
-export class StepData {
-  constructor(ContentType, FilePath, Latitude, Longitude, ZoomLevel, Text) {
-    this.ContentType = ContentType;
-    this.FilePath = FilePath;
-    this.Latitude = Latitude;
-    this.Longitude = Longitude;
-    this.ZoomLevel = ZoomLevel;
-    this.Text = Text;
-  }
-}
+import { fetchDataFromGoogleSheet } from "./google-sheet.js";
 
 let main = null;
 let scrolly = null;
@@ -31,10 +22,17 @@ document.addEventListener("DOMContentLoaded", async function () {
   story = scrolly.querySelector("article");
 
   //createScrollyContentFromCSVFile();
-  const stepDataArray = await fetchDataFromGoogleSheet();
-  createScrollyContentFromCSVData(stepDataArray);
+  try {
+    const stepDataArray = await fetchDataFromGoogleSheet();
+    createScrollyContentFromCSVData(stepDataArray);
+  } catch (scrollyError) {
+    displayError(scrollyError);
+  }
 });
 
+/* This creates all the steps in HTML for the scrolly story from
+    data read from a CSV file.
+*/
 function createScrollyContentFromCSVData(stepDataArray) {
   console.log("allStepData: " + JSON.stringify(stepDataArray));
 
@@ -42,6 +40,8 @@ function createScrollyContentFromCSVData(stepDataArray) {
   stepDataArray.forEach((stepData) => {
     var stepElement = document.createElement("div");
     stepElement.classList.add("step");
+    // dataset is the scrollama element that maps to HTML
+    // so updating dataset updates the HTML attributes
     stepElement.dataset.step = stepNumber;
     stepElement.dataset.contentType = stepData.ContentType;
     if (stepData.FilePath) {
@@ -73,18 +73,15 @@ function isParseError(parseErrors, papaErrors) {
   return false;
 }
 
-function displayErrors(errors) {
-  console.error("Errors parsing CSV file: " + JSON.stringify(errors));
+function displayError(stepError) {
+  const errorAction = document.getElementById("error-action");
+  errorAction.innerHTML = stepError.action;
 
-  var errorContainer = document.createElement("div");
-  errorContainer.classList.add("error-container");
-  errors.forEach((error) => {
-    var errorElement = document.createElement("p");
-    errorElement.textContent = `Parse File Error: ${JSON.stringify(error)}`;
-    //errorElement.textContent = `Parse File Error: ${String(error)}`;
-    errorContainer.appendChild(errorElement);
-  });
-  document.body.prepend(errorContainer);
+  const errorMessage = document.getElementById("error-message");
+  errorMessage.innerHTML = stepError.message;
+
+  const errorContainer = document.getElementById("error-container");
+  errorContainer.style.display = "flex"; // Show the error container
 }
 
 // scrollama event handlers
@@ -98,7 +95,21 @@ function handleStepEnter(response) {
   replaceStepContent(el.dataset);
 }
 
+/* As we enter a step in the story, replace or modify the sticky content
+   in HTML based on the step data
+*/
 function replaceStepContent(stepData) {
+  /*
+  if (!(stepData instanceof StepData)) {
+    displayError(
+      new ScrollyError(
+        "Replacing step content",
+        "Step data in replaceStepContent() is not of type StepData"
+      )
+    );
+    return;
+  }
+    */
   // Swap out image or map based on meta data
   if (stepData.contentType === "image") {
     // only replace the <img> tag if the image has changed, to allow for smooth transitions

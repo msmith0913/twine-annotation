@@ -29,7 +29,7 @@ a {
   margin-bottom: 50px;
 }
 
-.intro__hed {
+.title {
   font-size: 2em;
   margin: 2rem auto 0.5rem auto;
 }
@@ -46,4 +46,39 @@ a {
     margin-top: 0;
     margin-left: 2rem;
   }
+}
+
+#error-container {
+  display: none; /* hide by default, set to 'flex' when displayed */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+#error-dialog {
+  background-color: #f77373;
+  color: D8000C;
+  border: 3px solid #f77379;
+  max-width: 600px;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+  text-align: left;
+}
+
+#error-header {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+.error-label {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+#error-action,
+#error-message {
+  text-align: left;
+  font-size: smaller;
 }
