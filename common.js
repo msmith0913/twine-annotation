@@ -1,27 +1,27 @@
 // Defines all the data needed for a step
 
 export class ScrollyData {
-  constructor(StoryData, StepData) {
-    this.StoryData = StoryData;
-    this.StepData = StepData;
+  constructor(storyData, stepData) {
+    this.storyData = storyData;
+    this.stepData = stepData;
   }
 }
 
 export class StoryData {
-  constructor(ScrollyType, Title, Subtitle) {
-    this.ScrollyType = ScrollyType;
-    this.Title = Title;
-    this.Subtitle = Subtitle;
+  constructor(scrollyType, title, subtitle) {
+    this.scrollyType = ScrollyType;
+    this.title = title;
+    this.subtitle = subtitle;
   }
 }
 export class StepData {
-  constructor(ContentType, FilePath, Latitude, Longitude, ZoomLevel, Text) {
-    this.ContentType = ContentType;
-    this.FilePath = FilePath;
-    this.Latitude = Latitude;
-    this.Longitude = Longitude;
-    this.ZoomLevel = ZoomLevel;
-    this.Text = Text;
+  constructor(contentType, filePath, latitude, longitude, zoomLevel, text) {
+    this.contentType = contentType;
+    this.filePath = filePath;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.zoomLevel = zoomLevel;
+    this.text = text;
   }
 }
 
@@ -31,17 +31,8 @@ export class ScrollyError extends Error {
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, ScrollyError);
     }
-
-    this.Action = Action;
-    this.Message = Message;
-    this.Hint = Hint;
-  }
-
-  logError() {
-    const stackLines = this.stack.split("\n");
-
-    console.error(
-      "Error: " + this.Action + "\n" + this.Message + "\n" + stackLines[1]
-    );
+    // use Error.message for the error message
+    this.action = Action;
+    this.hint = Hint;
   }
 }

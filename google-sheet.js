@@ -113,14 +113,14 @@ function convertGoogleSheetDataToStepDataArray(values) {
   values.shift(); // remove the header row  TODO: Catch error if no header row & verify header row is valid
 
   const stepDataArray = values.map((row) => {
-    const [contentType, FilePath, Latitude, Longitude, ZoomLevel, Text] = row;
+    const [contentType, filePath, latitude, longitude, zoomLevel, text] = row;
     return new StepData(
       contentType,
-      FilePath,
-      Latitude,
-      Longitude,
-      ZoomLevel,
-      Text
+      filePath,
+      latitude,
+      longitude,
+      zoomLevel,
+      text
     );
   });
   return stepDataArray;

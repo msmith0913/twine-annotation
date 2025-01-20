@@ -26,12 +26,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     const allScrollyData = await fetchAllDataFromGoogleSheet();
     createAllScrollyContentInHTML(allScrollyData);
   } catch (scrollyError) {
-    displayError(scrollyError);
+    displayThenThrowError(scrollyError);
   }
 });
 
 function createAllScrollyContentInHTML(allScrollyData) {
-  createStepsContentInHtml(allScrollyData.StepData);
+  createStepsContentInHtml(allScrollyData.stepData);
 }
 
 /* This creates all the steps in HTML for the scrolly story 
@@ -47,21 +47,21 @@ function createStepsContentInHtml(stepDataArray) {
     // dataset is the scrollama element that maps to HTML
     // so updating dataset updates the HTML attributes
     stepElement.dataset.step = stepNumber;
-    stepElement.dataset.contentType = stepData.ContentType;
-    if (stepData.FilePath) {
-      stepElement.dataset.filePath = stepData.FilePath;
+    stepElement.dataset.contentType = stepData.contentType;
+    if (stepData.filePath) {
+      stepElement.dataset.filePath = stepData.filePath;
     }
-    if (stepData.Latitude) {
-      stepElement.dataset.latitude = stepData.Latitude;
+    if (stepData.latitude) {
+      stepElement.dataset.latitude = stepData.latitude;
     }
-    if (stepData.Longitude) {
-      stepElement.dataset.longitude = stepData.Longitude;
+    if (stepData.longitude) {
+      stepElement.dataset.longitude = stepData.longitude;
     }
-    if (stepData.ZoomLevel) {
-      stepElement.dataset.zoomLevel = stepData.ZoomLevel;
+    if (stepData.zoomLevel) {
+      stepElement.dataset.zoomLevel = stepData.zoomLevel;
     }
 
-    stepElement.innerHTML = `<p>${stepData.Text}</p>`;
+    stepElement.innerHTML = `<p>${stepData.text}</p>`;
     story.appendChild(stepElement);
     stepNumber++;
   });
@@ -77,17 +77,20 @@ function isParseError(parseErrors, papaErrors) {
   return false;
 }
 
-function displayError(stepError) {
+function displayThenThrowError(stepError) {
   const errorAction = document.getElementById("error-action");
-  errorAction.innerHTML = stepError.Action;
+  errorAction.innerHTML = stepError.action;
 
   const errorMessage = document.getElementById("error-message");
-  errorMessage.innerHTML = stepError.Message;
+  errorMessage.innerHTML = stepError.message;
 
   const errorContainer = document.getElementById("error-container");
   errorContainer.style.display = "flex"; // Show the error container
 
-  stepError.logError();
+  // Since stepError a subclass of Error, we want to throw it after
+  // we display the error in HTML so that the full stack trace is available
+  // to the user in the console
+  throw stepError;
 }
 
 // scrollama event handlers
