@@ -67,6 +67,44 @@ Now you can begin editing your Google Sheet to create your story. After you make
 
 # Editing the Google Sheet to Create Your Story
 
+The spreadsheet contains all the data that you'll use to create your scrollytelly story. Updating the data in the Google Sheet will automatically update your Pages site (after you've set it up, above).
+
+The data available to you is broken down into separate tabs of the spreadsheet
+
+## Story Tab
+
+This contains all the data you can change about the story as a whole. It includes:
+
+- **TODO**
+
+## Steps Tab
+
+This contains the data for each step in the story. Each block of text that scrolls up the page is considered a "step".
+
+Each row in this tab is one step, displayed in the order it appears in the tab.
+
+Values are:
+
+- **ContentType** - The kind of sticky content displayed to the right
+  - Image
+  - Map
+- **FilePath** - The path to the image, video, or audio file being used in the step, either relative to the GitHub project, or a URL to an external media
+  - Example: ./media/myimage.jpg
+  - Example: http://www.siue.edu/some_image.jpeg
+- **Latitude** - Used for Map content, to specify the Latitude of the center of the map
+  - A floating point number between -90.0 and 90.0
+- **Longitude** - Used for Map content, to specify the Longitue of the center of the map
+  - A floating point number between -180.0 and 180.0
+- **ZoomLevel** - Zoom levels allow you to change the size of what's viewable in the window, which functionally works as the ability to zoom in or out of a map or image.
+  - Maps have valid ZoomLevels between 0 (the whole world) and 18 (max zoom)
+  - Image ZoomLevels
+    - the default 1, so specifying 1 doesn't change the zoom
+    - Positive numbers scale the image up or down (zoom in or out)
+      - Numbers between 0 and 1 scale an image down, which zooms it out. A value of 0.5 makes the image half as big, and 0 will make the image disappear as it scales the image down to 0 size.
+      - Numbers above 1 scale the image up that many times. A value 1.5 will make the image twice ts original size, which zooms in.
+      - Negative numbers flip the element as well as scale it. A value of -1.5 will flip the image horizontally and zoom in by a factor of 1.5
+- **Text** - The text that scrolls up for this step
+
 # Credits (and licenses)
 
 **TODO**

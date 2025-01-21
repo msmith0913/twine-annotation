@@ -108,17 +108,6 @@ function handleStepEnter(response) {
    in HTML based on the step data
 */
 function replaceStepContent(stepData) {
-  /*
-  if (!(stepData instanceof StepData)) {
-    displayError(
-      new ScrollyError(
-        "Replacing step content",
-        "Step data in replaceStepContent() is not of type StepData"
-      )
-    );
-    return;
-  }
-    */
   // Swap out image or map based on meta data
   if (stepData.contentType === "image") {
     // only replace the <img> tag if the image has changed, to allow for smooth transitions
