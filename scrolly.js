@@ -59,7 +59,7 @@ function createStepsContentInHtml(stepDataArray) {
       stepElement.dataset.zoomLevel = stepData.zoomLevel;
     }
 
-    stepElement.innerHTML = `<p>${stepData.text}</p>`;
+    stepElement.innerHTML = `<p class="step-content">${stepData.text}</p>`;
     story.appendChild(stepElement);
     stepNumber++;
   });

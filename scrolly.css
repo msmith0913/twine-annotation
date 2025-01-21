@@ -59,11 +59,16 @@ article {
 
 .step {
   margin: 0rem 1rem 10rem 0rem;
-  color: #fff;
+  color: #d8d1d1;
   height: 50vh;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.step-content {
+  background-color: #0001;
+  padding: 1rem;
 }
 
 .step:first-child {
@@ -74,7 +79,6 @@ article {
 }
 
 .step.is-active {
-  background-color: #0001;
   color: #3b3b3b;
 }
 
