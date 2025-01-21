@@ -8,10 +8,12 @@ export class ScrollyData {
 }
 
 export class StoryData {
-  constructor(scrollyType, title, subtitle) {
-    this.scrollyType = ScrollyType;
+  constructor(scrollType, title, subtitle, endText, footer) {
+    this.scrollType = scrollType;
     this.title = title;
     this.subtitle = subtitle;
+    this.endText = endText;
+    this.footer = footer;
   }
 }
 export class StepData {
