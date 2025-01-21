@@ -38,8 +38,6 @@ function createAllScrollyContentInHTML(allScrollyData) {
     from a stepDataArry 
 */
 function createStepsContentInHtml(stepDataArray) {
-  console.log("allStepData: " + JSON.stringify(stepDataArray));
-
   var stepNumber = 1;
   stepDataArray.forEach((stepData) => {
     var stepElement = document.createElement("div");
@@ -128,6 +126,7 @@ function replaceStepContent(stepData) {
     stickyImage.style.display = "none"; // TODO Move to CSS, create an active/inactive class
     stickyMap.style.display = "block";
     displayStickyMap(stepData.latitude, stepData.longitude, stepData.zoomLevel);
+    prevStickyImage = null;
   }
 }
 
