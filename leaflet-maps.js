@@ -6,6 +6,7 @@ function displayStickyMap(lat, long, zoom) {
   } else {
     moveStickyMapLocation(lat, long, zoom);
   }
+  leafletMap.invalidateSize();
 }
 
 function moveStickyMapLocation(lat, long, zoom) {
@@ -18,6 +19,7 @@ function moveStickyMapLocation(lat, long, zoom) {
 }
 
 function createStickyMap(lat, long, zoom) {
+  console.log(`Creating map at ${lat}, ${long} zoom ${zoom}`);
   leafletMap = L.map("sticky-map").setView([lat, long], zoom);
   let tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
@@ -26,3 +28,16 @@ function createStickyMap(lat, long, zoom) {
 
   leafletMap.scrollWheelZoom.disable();
 }
+
+// Add event listener to handle display changes
+const mapContainer = document.getElementById("sticky-map");
+const observer = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    if (mutation.attributeName === "style") {
+      const display = window.getComputedStyle(mapContainer).display;
+      if (display !== "none") {
+        leafletMap.invalidateSize();
+      }
+    }
+  });
+});

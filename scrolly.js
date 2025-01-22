@@ -111,35 +111,73 @@ function handleStepEnter(response) {
   steps.forEach((step) => step.classList.remove("is-active"));
   el.classList.add("is-active");
 
-  replaceStepContent(el.dataset);
+  replaceStepStickyContent(el.dataset);
 }
 
 /* As we enter a step in the story, replace or modify the sticky content
    in HTML based on the step data
 */
-function replaceStepContent(stepData) {
-  // Swap out image or map based on meta data
-  if (stepData.contentType === "image") {
-    // only replace the <img> tag if the image has changed, to allow for smooth transitions
-    if (stepData.filePath && prevStickyImage != stepData.filePath) {
-      stickyImage.innerHTML = `<img src="${stepData.filePath}" alt="Image Alt Text" />`;
-      prevStickyImage = stepData.filePath;
+function replaceStepStickyContent(stepData) {
+  activateStickyContentContainer(stepData.contentType);
 
-      stickyImage.style.display = "block"; // TODO Move to CSS, create an active/inactive class
-      stickyMap.style.display = "none";
-    }
-    if (stepData.zoomLevel) {
-      let img = stickyImage.querySelector("img");
-      if (img) {
-        img.style.transform = `scale(${stepData.zoomLevel})`;
-      }
-    }
+  if (stepData.contentType === "image") {
+    displayStickyImage(stepData);
   } else if (stepData.contentType === "map") {
-    stickyImage.style.display = "none"; // TODO Move to CSS, create an active/inactive class
-    stickyMap.style.display = "block";
     displayStickyMap(stepData.latitude, stepData.longitude, stepData.zoomLevel);
     prevStickyImage = null;
   }
+}
+
+function activateStickyContentContainer(activateContentType) {
+  if (activateContentType === "image") {
+    stickyImage.style.display = "flex";
+    stickyMap.style.display = "none";
+  } else if (activateContentType === "map") {
+    stickyImage.style.display = "none";
+    stickyMap.style.display = "block";
+  }
+}
+
+function displayStickyImage(stepData) {
+  const img = document.getElementById("the-sticky-image");
+
+  // only replace the <img> tag if the image has changed, to avoid flickering
+  if (stepData.filePath && prevStickyImage != stepData.filePath) {
+    img.style.opacity = 0;
+
+    // fade in the image after the opacity transition
+    setTimeout(() => {
+      // Change the image source
+      img.src = stepData.filePath;
+      img.alt = "TODO Have user supply the Alt Text";
+
+      // Fade in the new image
+      img.style.opacity = 1;
+    }, 300); // Match the duration of the CSS transition
+
+    //stickyImage.innerHTML = `<img src="${stepData.filePath}" alt="Image Alt Text" />`;
+    prevStickyImage = stepData.filePath;
+  }
+  if (stepData.zoomLevel) {
+    img.style.transform = `scale(${stepData.zoomLevel})`;
+  }
+}
+
+/* Marks a step as active and fades in/out the content */
+function activateNewStickyContent(newSrc) {
+  const img = document.getElementById("myImage");
+
+  // Fade out the current image
+  img.style.opacity = 0;
+
+  // Wait for the fade-out transition to complete
+  setTimeout(() => {
+    // Change the image source
+    img.src = newSrc;
+
+    // Fade in the new image
+    img.style.opacity = 1;
+  }, 500); // Match the duration of the CSS transition
 }
 
 function initScrollama() {

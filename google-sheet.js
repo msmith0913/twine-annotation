@@ -99,7 +99,7 @@ function convertGoogleSheetDataToScrollyData(sheetsArray) {
   const storyData = convertGoogleSheetDataToStoryData(
     sheetsArray.valueRanges[storyIndex].values
   );
-  console.log(JSON.stringify(storyData));
+  //console.log(JSON.stringify(storyData));
 
   const stepDataArray = convertGoogleSheetDataToStepDataArray(
     sheetsArray.valueRanges[stepsIndex].values
