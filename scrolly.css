@@ -14,18 +14,19 @@
   flex: 1;
 }
 
-.sticky-content img {
-  transition: transform 1s ease-in, opacity 0.5s ease-in-out;
-}
-
-#sticky-image-container {
+/* CSS properties common to all sticky content */
+.sticky-content {
   position: -webkit-sticky;
   position: sticky;
   width: 100%;
-  margin: 0;
   z-index: 0;
   top: 12.5vh;
   height: 75vh;
+}
+
+#sticky-image-container {
+  margin: 0;
+
   /* Center everything inside */
   display: flex;
   align-items: center;
@@ -44,12 +45,18 @@
 }
 
 #sticky-map-container {
-  position: -webkit-sticky;
-  position: sticky;
-  width: 100%;
-  top: 12.5vh;
-  height: 75vh;
   display: none; /* hide by default, let meta data decide when to display */
+}
+
+.sticky-content {
+  /* The opacity transition will fade the content in/out when it gets replaced, 
+  so set the opacity to 1 when fading in and 0 when fading out */
+  transition: opacity 0.5s linear;
+}
+
+.sticky-content img {
+  /* eases transition when zoomming an image */
+  transition: transform 1s linear, opacity 0.5s linear;
 }
 
 article {

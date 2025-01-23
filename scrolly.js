@@ -9,7 +9,7 @@ let stickyImageContainer = null;
 let stickyMapContainer = null;
 let story = null;
 let steps = null;
-let prevStickyImage = null;
+let prevStepData = null;
 
 // initialize the scrollama
 let scroller = scrollama();
@@ -118,31 +118,53 @@ function handleStepEnter(response) {
    in HTML based on the step data
 */
 function replaceStepStickyContent(stepData) {
-  activateStickyContentContainer(stepData.contentType);
+  // activate the right container if it's different from previous step
+  if (
+    prevStepData == null ||
+    prevStepData.contentType != stepData.contentType
+  ) {
+    activateStickyContentContainer(stepData.contentType);
+  }
 
+  // Replace the content in the sticky container
   if (stepData.contentType === "image") {
     displayStickyImage(stepData);
   } else if (stepData.contentType === "map") {
     displayStickyMap(stepData.latitude, stepData.longitude, stepData.zoomLevel);
-    prevStickyImage = null;
   }
+  prevStepData = stepData;
 }
 
 function activateStickyContentContainer(activateContentType) {
+  // Fade out all the containers
+  stickyMapContainer.style.opacity = 0;
+  stickyImageContainer.style.opacity = 0;
+
   if (activateContentType === "image") {
-    stickyImageContainer.style.display = "flex";
-    stickyMapContainer.style.display = "none";
+    // Fade in the new container after the opacity transition
+    setTimeout(() => {
+      stickyImageContainer.style.opacity = 1;
+      stickyImageContainer.style.display = "flex";
+      stickyMapContainer.style.display = "none";
+    }, 400);
   } else if (activateContentType === "map") {
-    stickyImageContainer.style.display = "none";
-    stickyMapContainer.style.display = "block";
+    setTimeout(() => {
+      stickyMapContainer.style.opacity = 1;
+      stickyImageContainer.style.display = "none";
+      stickyMapContainer.style.display = "block";
+    }, 400);
   }
 }
 
 function displayStickyImage(stepData) {
   const img = document.getElementById("the-sticky-image");
 
-  // only replace the <img> tag if the image has changed, to avoid flickering
-  if (stepData.filePath && prevStickyImage != stepData.filePath) {
+  // only replace sticky image if it has changed, to avoid flickering
+  if (
+    !prevStepData ||
+    (stepData.filePath && prevStepData.filePath != stepData.filePath)
+  ) {
+    // Fade out the current image before changing the source
     img.style.opacity = 0;
 
     // fade in the image after the opacity transition
@@ -155,29 +177,14 @@ function displayStickyImage(stepData) {
       img.style.opacity = 1;
     }, 500); // Match the duration of the CSS transition
 
-    prevStickyImage = stepData.filePath;
+    prevStepData = stepData.filePath;
   }
   if (stepData.zoomLevel) {
     img.style.transform = `scale(${stepData.zoomLevel})`;
   }
 }
 
-/* Marks a step as active and fades in/out the content */
-function activateNewStickyContent(newSrc) {
-  const img = document.getElementById("myImage");
-
-  // Fade out the current image
-  img.style.opacity = 0;
-
-  // Wait for the fade-out transition to complete
-  setTimeout(() => {
-    // Change the image source
-    img.src = newSrc;
-
-    // Fade in the new image
-    img.style.opacity = 1;
-  }, 500); // Match the duration of the CSS transition
-}
+function fadeOutContentContainers() {}
 
 function initScrollama() {
   scroller

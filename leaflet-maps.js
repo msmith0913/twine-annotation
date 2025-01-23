@@ -11,7 +11,7 @@ function displayStickyMap(lat, long, zoom) {
 
 function moveStickyMapLocation(lat, long, zoom) {
   const options = {
-    duration: 1.5, // Duration of the animation in seconds
+    duration: 1.0, // Duration of the animation in seconds
     easeLinearity: 0.1, // How "smooth" the flyTo animation is
     noMoveStart: false, // Whether to trigger movestart event
   };
@@ -27,17 +27,26 @@ function createStickyMap(lat, long, zoom) {
   }).addTo(leafletMap);
 
   leafletMap.scrollWheelZoom.disable();
+  handleResizeEvents();
 }
 
-// Add event listener to handle display changes
-const mapContainer = document.getElementById("sticky-map-container");
-const observer = new MutationObserver((mutations) => {
-  mutations.forEach((mutation) => {
-    if (mutation.attributeName === "style") {
-      const display = window.getComputedStyle(mapContainer).display;
-      if (display !== "none") {
-        leafletMap.invalidateSize();
+function handleResizeEvents() {
+  // Add event listener to handle display changes
+  const mapContainer = document.getElementById("sticky-map-container");
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === "style") {
+        console.log("Leaflet map style has changed...");
+        const display = window.getComputedStyle(mapContainer).display;
+        if (display !== "none") {
+          leafletMap.invalidateSize();
+        }
       }
-    }
+    });
   });
-});
+
+  observer.observe(mapContainer, {
+    attributes: true,
+    attributeFilter: ["style"],
+  });
+}
