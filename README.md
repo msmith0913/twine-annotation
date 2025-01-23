@@ -73,9 +73,14 @@ The data available to you is broken down into separate tabs of the spreadsheet
 
 ## Story Tab
 
-This contains all the data you can change about the story as a whole. It includes:
+This contains all the data you can change about the story as a whole. It is a single line of content (below the header line), and includes the following:
 
-- **TODO**
+- **ScrollType** -- The type of ScrollyStory
+  - left-side - the scroll text is displayed on the left and the sticky images are on the right
+  - center-overlap (Not yet available) - the text scroll ups the center on top of the sticky content, which fills the full width of the screen.
+- **Title** - the title of the page, displayed as Header (H1) at the top of the page
+- **Subtitle** - an optional subtitle, displayed below the title
+- **EndText** - text that can go at the end of page, after the scrolly content has ended, if you to wrap up the story.
 
 ## Steps Tab
 
@@ -91,6 +96,9 @@ Values are:
 - **FilePath** - The path to the image, video, or audio file being used in the step, either relative to the GitHub project, or a URL to an external media
   - Example: ./media/myimage.jpg
   - Example: http://www.siue.edu/some_image.jpeg
+- **AltText** - Alternate text to help those vision loss to understand what is being displayed for this step
+  - Example: Map of Edwardsville, Illinois
+  - Example: President Abraham Lincoln (for an image of Lincoln, where his being president is relevant to the text)
 - **Latitude** - Used for Map content, to specify the Latitude of the center of the map
   - A floating point number between -90.0 and 90.0
 - **Longitude** - Used for Map content, to specify the Longitue of the center of the map
