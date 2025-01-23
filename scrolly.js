@@ -61,6 +61,9 @@ function createStepsContentInHtml(stepDataArray) {
     if (stepData.filePath) {
       stepElement.dataset.filePath = stepData.filePath;
     }
+    if (stepData.altText) {
+      stepElement.dataset.altText = stepData.altText;
+    }
     if (stepData.latitude) {
       stepElement.dataset.latitude = stepData.latitude;
     }
@@ -131,6 +134,7 @@ function replaceStepStickyContent(stepData) {
     displayStickyImage(stepData);
   } else if (stepData.contentType === "map") {
     displayStickyMap(stepData.latitude, stepData.longitude, stepData.zoomLevel);
+    addAltTextToMap(stepData.altText);
   }
   prevStepData = stepData;
 }
@@ -171,7 +175,7 @@ function displayStickyImage(stepData) {
     setTimeout(() => {
       // Change the image source
       img.src = stepData.filePath;
-      img.alt = "TODO Have user supply the Alt Text";
+      img.alt = stepData.altText;
 
       // Fade in the new image
       img.style.opacity = 1;
@@ -184,7 +188,10 @@ function displayStickyImage(stepData) {
   }
 }
 
-function fadeOutContentContainers() {}
+function addAltTextToMap(altText) {
+  const map = document.getElementById("sticky-map-container");
+  map.setAttribute("aria-label", altText);
+}
 
 function initScrollama() {
   scroller

@@ -17,9 +17,18 @@ export class StoryData {
   }
 }
 export class StepData {
-  constructor(contentType, filePath, latitude, longitude, zoomLevel, text) {
+  constructor(
+    contentType,
+    filePath,
+    altText,
+    latitude,
+    longitude,
+    zoomLevel,
+    text
+  ) {
     this.contentType = contentType;
     this.filePath = filePath;
+    this.altText = altText;
     this.latitude = latitude;
     this.longitude = longitude;
     this.zoomLevel = zoomLevel;
