@@ -20,7 +20,7 @@ function moveStickyMapLocation(lat, long, zoom) {
 
 function createStickyMap(lat, long, zoom) {
   console.log(`Creating map at ${lat}, ${long} zoom ${zoom}`);
-  leafletMap = L.map("sticky-map").setView([lat, long], zoom);
+  leafletMap = L.map("sticky-map-container").setView([lat, long], zoom);
   let tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -30,7 +30,7 @@ function createStickyMap(lat, long, zoom) {
 }
 
 // Add event listener to handle display changes
-const mapContainer = document.getElementById("sticky-map");
+const mapContainer = document.getElementById("sticky-map-container");
 const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
     if (mutation.attributeName === "style") {

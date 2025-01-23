@@ -5,11 +5,11 @@ import { fetchAllDataFromGoogleSheet } from "./google-sheet.js";
 
 let main = null;
 let scrolly = null;
-let stickyImage = null;
-let prevStickyImage = null;
-let stickyMap = null;
+let stickyImageContainer = null;
+let stickyMapContainer = null;
 let story = null;
 let steps = null;
+let prevStickyImage = null;
 
 // initialize the scrollama
 let scroller = scrollama();
@@ -17,8 +17,8 @@ let scroller = scrollama();
 document.addEventListener("DOMContentLoaded", async function () {
   main = document.querySelector("main");
   scrolly = main.querySelector("#scrolly-container");
-  stickyImage = scrolly.querySelector("#sticky-image");
-  stickyMap = scrolly.querySelector("#sticky-map");
+  stickyImageContainer = scrolly.querySelector("#sticky-image-container");
+  stickyMapContainer = scrolly.querySelector("#sticky-map-container");
   story = scrolly.querySelector("article");
 
   //createScrollyContentFromCSVFile();
@@ -130,11 +130,11 @@ function replaceStepStickyContent(stepData) {
 
 function activateStickyContentContainer(activateContentType) {
   if (activateContentType === "image") {
-    stickyImage.style.display = "flex";
-    stickyMap.style.display = "none";
+    stickyImageContainer.style.display = "flex";
+    stickyMapContainer.style.display = "none";
   } else if (activateContentType === "map") {
-    stickyImage.style.display = "none";
-    stickyMap.style.display = "block";
+    stickyImageContainer.style.display = "none";
+    stickyMapContainer.style.display = "block";
   }
 }
 
@@ -153,9 +153,8 @@ function displayStickyImage(stepData) {
 
       // Fade in the new image
       img.style.opacity = 1;
-    }, 300); // Match the duration of the CSS transition
+    }, 500); // Match the duration of the CSS transition
 
-    //stickyImage.innerHTML = `<img src="${stepData.filePath}" alt="Image Alt Text" />`;
     prevStickyImage = stepData.filePath;
   }
   if (stepData.zoomLevel) {
