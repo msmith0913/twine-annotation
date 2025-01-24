@@ -72,13 +72,19 @@ a {
   font-weight: bold;
   margin-bottom: 2rem;
 }
-.error-label {
+
+#error-message {
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
-#error-action,
-#error-message {
+#error-action-container {
   text-align: left;
   font-size: smaller;
+  margin-bottom: 0.5rem;
+}
+
+#error-hint {
+  font-size: smaller;
+  display: none; /* only display if it exists */
 }
