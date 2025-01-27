@@ -36,7 +36,7 @@ export class StepData {
   }
 
   validate(actionTextIfError) {
-    const validContentTypes = ["image", "map"];
+    const validContentTypes = ["image", "map", "video"];
     if (!validContentTypes.includes(this.contentType)) {
       throw new ScrollyError(
         actionTextIfError,

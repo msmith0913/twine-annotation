@@ -48,6 +48,12 @@
   display: none; /* hide by default, let meta data decide when to display */
 }
 
+#sticky-video-container * {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .sticky-content {
   /* The opacity transition will fade the content in/out when it gets replaced, 
   so set the opacity to 1 when fading in and 0 when fading out */

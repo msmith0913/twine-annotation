@@ -8,9 +8,12 @@ let main = null;
 let scrolly = null;
 let stickyImageContainer = null;
 let stickyMapContainer = null;
+let stickyVideoContainer = null;
 let story = null;
 let steps = null;
 let prevStepData = null;
+
+const transitionInMilliseconds = 500;
 
 // initialize the scrollama
 let scroller = scrollama();
@@ -20,6 +23,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   scrolly = main.querySelector("#scrolly-container");
   stickyImageContainer = scrolly.querySelector("#sticky-image-container");
   stickyMapContainer = scrolly.querySelector("#sticky-map-container");
+  stickyVideoContainer = scrolly.querySelector("#sticky-video-container");
   story = scrolly.querySelector("article");
 
   //createScrollyContentFromCSVFile();
@@ -145,6 +149,8 @@ function replaceStepStickyContent(stepData) {
   // Replace the content in the sticky container
   if (stepData.contentType === "image") {
     displayStickyImage(stepData);
+  } else if (stepData.contentType === "video") {
+    displayStickyVideo(stepData);
   } else if (stepData.contentType === "map") {
     displayStickyMap(stepData.latitude, stepData.longitude, stepData.zoomLevel);
     addAltTextToMap(stepData.altText);
@@ -156,20 +162,31 @@ function activateStickyContentContainer(activateContentType) {
   // Fade out all the containers
   stickyMapContainer.style.opacity = 0;
   stickyImageContainer.style.opacity = 0;
+  stickyVideoContainer.style.opacity = 0;
+  stopPlayingVideo(); // just in case video is playing, don't want to hear it after it scrolls off page
 
   if (activateContentType === "image") {
     // Fade in the new container after the opacity transition
     setTimeout(() => {
       stickyImageContainer.style.opacity = 1;
       stickyImageContainer.style.display = "flex";
+      stickyVideoContainer.style.display = "none";
       stickyMapContainer.style.display = "none";
-    }, 400);
+    }, transitionInMilliseconds);
   } else if (activateContentType === "map") {
     setTimeout(() => {
       stickyMapContainer.style.opacity = 1;
       stickyImageContainer.style.display = "none";
+      stickyVideoContainer.style.display = "none";
       stickyMapContainer.style.display = "block";
-    }, 400);
+    }, transitionInMilliseconds);
+  } else if (activateContentType === "video") {
+    setTimeout(() => {
+      stickyVideoContainer.style.opacity = 1;
+      stickyImageContainer.style.display = "none";
+      stickyMapContainer.style.display = "none";
+      stickyVideoContainer.style.display = "block";
+    }, transitionInMilliseconds);
   }
 }
 
@@ -192,12 +209,55 @@ function displayStickyImage(stepData) {
 
       // Fade in the new image
       img.style.opacity = 1;
-    }, 500); // Match the duration of the CSS transition
+    }, transitionInMilliseconds); // Match the duration of the CSS transition
 
     prevStepData = stepData.filePath;
   }
   if (stepData.zoomLevel) {
     img.style.transform = `scale(${stepData.zoomLevel})`;
+  }
+}
+
+function displayStickyVideo(stepData) {
+  // only replace sticky video if it has changed, to avoid flickering
+  if (
+    !prevStepData ||
+    (stepData.filePath && prevStepData.filePath != stepData.filePath)
+  ) {
+    // Fade out the current video before changing the source
+    stickyVideoContainer.style.opacity = 0;
+
+    // fade in the video after the opacity transition
+    setTimeout(() => {
+      // Change the video source
+      // stickyVideoContainer.innerHTML = `<embed src="${stepData.filePath}"></embed>`;
+      stickyVideoContainer.innerHTML = `<iframe 
+                id="the-iframe-video"
+                src="${stepData.filePath}"
+                frameborder="0"
+                referrerpolicy="strict-origin-when-cross-origin"
+                >
+            </iframe>`;
+
+      stickyVideoContainer.ariaLabel = stepData.altText;
+      stickyVideoContainer.role = "tooltip";
+
+      // Fade in the new video
+      stickyVideoContainer.style.opacity = 1;
+    }, transitionInMilliseconds); // Match the duration of the CSS transition
+
+    prevStepData = stepData.filePath;
+  }
+}
+
+function stopPlayingVideo() {
+  // To properly do this, we'd have to know which streaming service, if any, is currently
+  // playing and call a different API for each service to stop their player.
+  // Instead, we'll just blank out the source of the video -- it will get loaded again the
+  // next time a step is invoked.
+  const iframe = document.getElementById("the-iframe-video");
+  if (iframe != null) {
+    iframe.src = "";
   }
 }
 

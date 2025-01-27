@@ -93,9 +93,13 @@ Values are:
 - **ContentType** - The kind of sticky content displayed to the right
   - Image
   - Map
-- **FilePath** - The path to the image, video, or audio file being used in the step, either relative to the GitHub project, or a URL to an external media
-  - Example: ./media/myimage.jpg
+  - Video
+- **FilePath** - The path to the image, video, or audio file being used in the step, either relative to the GitHub project, or a URL to external media. Note that for videos from services like youtube or vimeo, you have to use the URL from the embed code, not the brower's URL.
+  - Example: ./media/my-image.jpg
   - Example: http://www.siue.edu/some_image.jpeg
+  - Example: https://www.youtube.com/embed/zp488Cfivm4?si=OCq0xL0Fd9s96irZ
+  - Example: https://player.vimeo.com/video/851328188
+  - Example: ./media/my-video.mp4
 - **AltText** - Alternate text to help those vision loss to understand what is being displayed for this step
   - Example: Map of Edwardsville, Illinois
   - Example: President Abraham Lincoln (for an image of Lincoln, where his being president is relevant to the text)
