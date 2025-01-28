@@ -9,11 +9,11 @@ export class ScrollyData {
 
 export class StoryData {
   constructor(scrollType, title, subtitle, endText, footer) {
-    this.scrollType = scrollType;
-    this.title = title;
-    this.subtitle = subtitle;
-    this.endText = endText;
-    this.footer = footer;
+    this.scrollType = DOMPurify.sanitize(scrollType);
+    this.title = DOMPurify.sanitize(title);
+    this.subtitle = DOMPurify.sanitize(subtitle);
+    this.endText = DOMPurify.sanitize(endText);
+    this.footer = DOMPurify.sanitize(footer);
   }
 }
 export class StepData {
@@ -26,13 +26,13 @@ export class StepData {
     zoomLevel,
     text
   ) {
-    this.contentType = contentType;
-    this.filePath = filePath;
-    this.altText = altText;
-    this.latitude = latitude;
-    this.longitude = longitude;
-    this.zoomLevel = zoomLevel;
-    this.text = text;
+    this.contentType = DOMPurify.sanitize(contentType);
+    this.filePath = DOMPurify.sanitize(filePath);
+    this.altText = DOMPurify.sanitize(altText);
+    this.latitude = DOMPurify.sanitize(latitude);
+    this.longitude = DOMPurify.sanitize(longitude);
+    this.zoomLevel = DOMPurify.sanitize(zoomLevel);
+    this.text = DOMPurify.sanitize(text);
   }
 
   validate(actionTextIfError) {
