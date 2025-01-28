@@ -4,13 +4,12 @@ import { ScrollyData, StoryData, StepData, ScrollyError } from "./common.js";
 // Use the URL from the browser address bar replacing the one below.
 // Note that you must publish this sheet to the web for it to be accessible by the Google Sheets API.
 // Google Sheet File menu -> Share-> Publish to Web -> Publish Entire Document as Web Page
+//     (NOTE: This the Google Sheet File Menu, not the browser File menu, you may have to expand the
+//     Menu bar at the top right up arrow to see the Sheets menus)
 // Also, you must Share the sheet so that anyone with a link can access it
-// Share button at top right of sheet -> General Access -> Anyone with the link -> Viewer
+//     Share button at top right of sheet -> General Access -> Anyone with the link -> Viewer
 const googleSheetURL =
-  "https://docs.google.com/spreadsheets/d/1Nkq7DLecFxgwSs9tC0f_k0tTNTHPrsV3Bqf9L98aSuQ/edit?gid=0#gid=0";
-
-//googleSheetURL =
-//  "docs.google.com/spreadsheets/d/1qg8Ap_YeYf-vpS5QPNAFX8KJ3IEo_r_TAigIcWwHxmU/edit?gid=1843475809#gid=1843475809";
+  "https://docs.google.com/spreadsheets/d/17sHlHcOilG9UmRju8YDGx4bRMIDpQ5Bpfzc0QI-Np6c/edit?pli=1&gid=1428114391#gid=1428114391";
 
 // An API Key is required to read a google sheet from an application. It is generated at https://console.developers.google.com
 // and if you plan to publish this scrolly story on your own standalone site, you will need to generate your own key.
@@ -20,10 +19,10 @@ const googleSheetURL =
 // 3. Enable APIs and Services
 // 4. Search for Google Sheets API, click on it and then enable it
 // 5. Choose Credentials from the left menu
-// 6. Click on Create Credentials
+// 6. Click on Create Credentials at the top menu bar then API Key
 // 7. Restrict the key under API restrictions and restrict to Google Sheets API
 // 7. Copy the key and replace the one below
-const googleApiKey = "AIzaSyA_HsSEP3PPc7CNU6xg3qxZYqJYKvX21cw";
+const googleApiKey = "AIzaSyDY8bg45rGLpL4UsIKsDWh0bVec6wueFHs";
 
 const sheetNames = ["Story", "Steps"];
 const storyIndex = 0;
