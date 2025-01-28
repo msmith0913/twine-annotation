@@ -159,14 +159,17 @@ function replaceStepStickyContent(stepData) {
 }
 
 function activateStickyContentContainer(activateContentType) {
-  // Fade out all the containers
+  // Start fading out the old container (just do all of them).
+  // We've set up a transition on opacity, so setting it to 0 or 1 will take
+  // as long as specified in CSS. We can fade in the new content after that
   stickyMapContainer.style.opacity = 0;
   stickyImageContainer.style.opacity = 0;
   stickyVideoContainer.style.opacity = 0;
-  stopPlayingVideo(); // just in case video is playing, don't want to hear it after it scrolls off page
 
+  stopPlayingVideo(); // in case video is playing, don't want to hear it after it scrolls off page
+
+  // Fade in the new container after the opacity transition
   if (activateContentType === "image") {
-    // Fade in the new container after the opacity transition
     setTimeout(() => {
       stickyImageContainer.style.opacity = 1;
       stickyImageContainer.style.display = "flex";
@@ -176,16 +179,16 @@ function activateStickyContentContainer(activateContentType) {
   } else if (activateContentType === "map") {
     setTimeout(() => {
       stickyMapContainer.style.opacity = 1;
+      stickyMapContainer.style.display = "block";
       stickyImageContainer.style.display = "none";
       stickyVideoContainer.style.display = "none";
-      stickyMapContainer.style.display = "block";
     }, transitionInMilliseconds);
   } else if (activateContentType === "video") {
     setTimeout(() => {
       stickyVideoContainer.style.opacity = 1;
+      stickyVideoContainer.style.display = "block";
       stickyImageContainer.style.display = "none";
       stickyMapContainer.style.display = "none";
-      stickyVideoContainer.style.display = "block";
     }, transitionInMilliseconds);
   }
 }
@@ -199,6 +202,9 @@ function displayStickyImage(stepData) {
     (stepData.filePath && prevStepData.filePath != stepData.filePath)
   ) {
     // Fade out the current image before changing the source
+    // Note that this will double the transition when we are switching from
+    // an image to a different content type because the containers also fade in/out
+    // in that case, but that's ok, a longer transition is appropriate in that case
     img.style.opacity = 0;
 
     // fade in the image after the opacity transition
@@ -206,10 +212,8 @@ function displayStickyImage(stepData) {
       // Change the image source
       img.src = stepData.filePath;
       img.alt = stepData.altText;
-
-      // Fade in the new image
       img.style.opacity = 1;
-    }, transitionInMilliseconds); // Match the duration of the CSS transition
+    }, transitionInMilliseconds);
 
     prevStepData = stepData.filePath;
   }
@@ -219,35 +223,17 @@ function displayStickyImage(stepData) {
 }
 
 function displayStickyVideo(stepData) {
-  // only replace sticky video if it has changed, to avoid flickering
-  if (
-    !prevStepData ||
-    (stepData.filePath && prevStepData.filePath != stepData.filePath)
-  ) {
-    // Fade out the current video before changing the source
-    stickyVideoContainer.style.opacity = 0;
-
-    // fade in the video after the opacity transition
-    setTimeout(() => {
-      // Change the video source
-      // stickyVideoContainer.innerHTML = `<embed src="${stepData.filePath}"></embed>`;
-      stickyVideoContainer.innerHTML = `<iframe 
+  stickyVideoContainer.innerHTML = `<iframe 
                 id="the-iframe-video"
                 src="${stepData.filePath}"
                 frameborder="0"
                 referrerpolicy="strict-origin-when-cross-origin"
                 >
             </iframe>`;
+  stickyVideoContainer.ariaLabel = stepData.altText;
+  stickyVideoContainer.role = "tooltip";
 
-      stickyVideoContainer.ariaLabel = stepData.altText;
-      stickyVideoContainer.role = "tooltip";
-
-      // Fade in the new video
-      stickyVideoContainer.style.opacity = 1;
-    }, transitionInMilliseconds); // Match the duration of the CSS transition
-
-    prevStepData = stepData.filePath;
-  }
+  prevStepData = stepData.filePath;
 }
 
 function stopPlayingVideo() {

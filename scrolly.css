@@ -65,6 +65,12 @@
   transition: transform 1s linear, opacity 0.5s linear;
 }
 
+.sticky-content video,
+map {
+  /* eases transition when zoomming an image or video */
+  transition: opacity 0.5s linear;
+}
+
 article {
   position: relative;
 

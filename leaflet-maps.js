@@ -19,7 +19,6 @@ function moveStickyMapLocation(lat, long, zoom) {
 }
 
 function createStickyMap(lat, long, zoom) {
-  console.log(`Creating map at ${lat}, ${long} zoom ${zoom}`);
   leafletMap = L.map("sticky-map-container").setView([lat, long], zoom);
   let tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
@@ -36,7 +35,6 @@ function handleResizeEvents() {
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.attributeName === "style") {
-        console.log("Leaflet map style has changed...");
         const display = window.getComputedStyle(mapContainer).display;
         if (display !== "none") {
           leafletMap.invalidateSize();
