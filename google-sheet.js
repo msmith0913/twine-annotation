@@ -9,7 +9,7 @@ import { ScrollyData, StoryData, StepData, ScrollyError } from "./common.js";
 // Also, you must Share the sheet so that anyone with a link can access it
 //     Share button at top right of sheet -> General Access -> Anyone with the link -> Viewer
 const googleSheetURL =
-  "https://docs.google.com/spreadsheets/d/17sHlHcOilG9UmRju8YDGx4bRMIDpQ5Bpfzc0QI-Np6c/edit?pli=1&gid=1428114391#gid=1428114391";
+  "https://docs.google.com/spreadsheets/d/1Nkq7DLecFxgwSs9tC0f_k0tTNTHPrsV3Bqf9L98aSuQ";
 
 // An API Key is required to read a google sheet from an application. It is generated at https://console.developers.google.com
 // and if you plan to publish this scrolly story on your own standalone site, you will need to generate your own key.
@@ -22,7 +22,7 @@ const googleSheetURL =
 // 6. Click on Create Credentials at the top menu bar then API Key
 // 7. Restrict the key under API restrictions and restrict to Google Sheets API
 // 7. Copy the key and replace the one below
-const googleApiKey = "AIzaSyDY8bg45rGLpL4UsIKsDWh0bVec6wueFHs";
+const googleApiKey = "AIzaSyA_HsSEP3PPc7CNU6xg3qxZYqJYKvX21cw";
 
 const sheetNames = ["Story", "Steps"];
 const storyIndex = 0;
