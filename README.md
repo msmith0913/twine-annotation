@@ -8,7 +8,7 @@ This project contains a sample [Scrolly Story](https://danschreibersiue.github.i
 
 # How to Create Your Own Scrolly Story
 
-Scrolly Stories can be created either from a [Google Sheet](https://docs.google.com/spreadsheets/d/1Nkq7DLecFxgwSs9tC0f_k0tTNTHPrsV3Bqf9L98aSuQ/edit?gid=0#gid=0) linked to your project, or a CSV file of the same format that is uploaded into your GitHub repository. It will be easier to develop your story if you start from a Google Sheet, because you can edit the google sheet and then refresh the story and you'll see your changes right away. To see changes from a CSV file, you'll need to update your git repository with the CSV file before you can see your changes. It is recommended that you develop your story from a Google Sheet, and when it is ready, upload a CSV file for the final version so that all your data is in a single place (the GitHub repository).
+Scrolly Stories can be created either from a [Google Sheet](https://docs.google.com/spreadsheets/d/1Nkq7DLecFxgwSs9tC0f_k0tTNTHPrsV3Bqf9L98aSuQ) linked to your project, or a CSV file of the same format that is uploaded into your GitHub repository. It will be easier to develop your story if you start from a Google Sheet, because you can edit the google sheet and then refresh the story and you'll see your changes right away. To see changes from a CSV file, you'll need to update your git repository with the CSV file before you can see your changes. It is recommended that you develop your story from a Google Sheet, and when it is ready, upload a CSV file for the final version so that all your data is in a single place (the GitHub repository).
 
 ## Overview
 
@@ -47,7 +47,7 @@ GitHub Pages is a free service that allows you to publish a website directly fro
 
 #### Copy the example Google Sheet
 
-1. Open the [template Google Sheet](https://docs.google.com/spreadsheets/d/1Nkq7DLecFxgwSs9tC0f_k0tTNTHPrsV3Bqf9L98aSuQ/edit?gid=0#gid=0) in a new tab
+1. Open the [template Google Sheet](https://docs.google.com/spreadsheets/d/1Nkq7DLecFxgwSs9tC0f_k0tTNTHPrsV3Bqf9L98aSuQ) in a new tab
 2. Sign into your Google account and select _File -> Make a Copy_ to save a version of the template to your Google Drive
 3. Click the blue _Share_ button and then _Change to anyone with the link_, then _Done_.
 4. Go to _File -> Publish to the Web_ , then the green _Publish_ button. Publicly sharing the link is needed for the app to read the spreadsheet. You can close this dialog via the upper right _X_ symbol.
@@ -117,6 +117,28 @@ Values are:
       - Negative numbers flip the element as well as scale it. A value of -1.5 will flip the image horizontally and zoom in by a factor of 1.5
 - **Text** - The text that scrolls up for this step
 
-# Credits (and licenses)
+# Credits
 
-**TODO**
+This project uses the following libraries and tools:
+
+- Scrollama: A library for creating scrollytelling experiences.
+  - Website: [Scrollama](https://github.com/russellsamora/scrollama)
+  - License: MIT
+- Intersection Observer: A polyfill for the Intersection Observer API.
+
+  - Website: [Intersection Observer](https://github.com/w3c/IntersectionObserver)
+  - License: W3C
+
+- Leaflet: An open-source JavaScript library for interactive maps.
+
+  - Website: [Leaflet](https://leafletjs.com/)
+  - License: BSD-2-Clause
+
+- PapaParse: A powerful CSV parser for JavaScript.
+
+  - Website: [PapaParse](https://www.papaparse.com/)
+  - License: MIT
+
+- DOMPurify: A DOM-only, super-fast, uber-tolerant XSS sanitizer for HTML, MathML, and SVG.
+  - Website: [DOMPurify](https://github.com/cure53/DOMPurify)
+  - License: Apache-2.0
