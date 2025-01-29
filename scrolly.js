@@ -45,8 +45,11 @@ function createAllScrollyContentInHTML(allScrollyData) {
 }
 
 function createStoryContentInHtml(storyData) {
-  const title = document.getElementById("title");
-  title.innerHTML = storyData.title;
+  const storyTitle = document.getElementById("story-title");
+  storyTitle.innerHTML = storyData.title;
+
+  const browserTitle = document.getElementById("browser-title");
+  browserTitle.innerHTML = storyData.title;
 
   const subtitle = document.getElementById("subtitle");
   subtitle.innerHTML = storyData.subtitle;
