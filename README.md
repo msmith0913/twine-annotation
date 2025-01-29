@@ -4,11 +4,11 @@ This project allows you to create a scrollytelling story using data from a sprea
 
 A scrollytelling story is a web page that scrolls text down a web page while other content (such as images, maps, or videos), remain "sticky" and stays in the same position on the page. The sticky content changes as the user scrolls, to illustrate the current step in the story being told.
 
-This project contains a sample [Scrolly Story](https://danschreibersiue.github.io/scrolly-story-generator/) that you can use as a starting point to create your own.
+This project contains a sample [Scrolly Story](https://irissiue.github.io/scrolly-story-generator/) that you can use as a starting point to create your own.
 
 # How to Create Your Own Scrolly Story
 
-Scrolly Stories can be created either from a [Google Sheet](https://docs.google.com/spreadsheets/d/1Nkq7DLecFxgwSs9tC0f_k0tTNTHPrsV3Bqf9L98aSuQ) linked to your project, or a CSV file of the same format that is uploaded into your GitHub repository. It will be easier to develop your story if you start from a Google Sheet, because you can edit the google sheet and then refresh the story and you'll see your changes right away. To see changes from a CSV file, you'll need to update your git repository with the CSV file before you can see your changes. It is recommended that you develop your story from a Google Sheet, and when it is ready, upload a CSV file for the final version so that all your data is in a single place (the GitHub repository).
+Scrolly Stories can be created either from a [Google Sheet](https://docs.google.com/spreadsheets/d/17sHlHcOilG9UmRju8YDGx4bRMIDpQ5Bpfzc0QI-Np6c) linked to your project, or a CSV file of the same format that is uploaded into your GitHub repository. It will be easier to develop your story if you start from a Google Sheet, because you can edit the google sheet and then refresh the story and you'll see your changes right away. To see changes from a CSV file, you'll need to update your git repository with the CSV file before you can see your changes. It is recommended that you develop your story from a Google Sheet, and when it is ready, upload a CSV file for the final version so that all your data is in a single place (the GitHub repository).
 
 ## Overview
 
@@ -29,7 +29,7 @@ The main steps
 #### Copy GitHub Repository
 
 1. Sign into GitHub using your account credentials
-2. Open [this GitHub repository](https://github.com/danschreiberSIUE/scrolly-story-generator) in a new tab
+2. Open [this GitHub repository](https://github.com/irissiue/scrolly-story-generator) in a new tab
 3. In the upper right corner, click _Use this template_ the "Create a new repository"
 4. Create a repository name and description specific to your story and press the green _Create Repository_ button at the bottom right
 
@@ -47,7 +47,7 @@ GitHub Pages is a free service that allows you to publish a website directly fro
 
 #### Copy the example Google Sheet
 
-1. Open the [template Google Sheet](https://docs.google.com/spreadsheets/d/1Nkq7DLecFxgwSs9tC0f_k0tTNTHPrsV3Bqf9L98aSuQ) in a new tab
+1. Open the [template Google Sheet](https://docs.google.com/spreadsheets/d/17sHlHcOilG9UmRju8YDGx4bRMIDpQ5Bpfzc0QI-Np6c) in a new tab
 2. Sign into your Google account and select _File -> Make a Copy_ to save a version of the template to your Google Drive
 3. Click the blue _Share_ button and then _Change to anyone with the link_, then _Done_.
 4. Go to _File -> Publish to the Web_ , then the green _Publish_ button. Publicly sharing the link is needed for the app to read the spreadsheet. You can close this dialog via the upper right _X_ symbol.
