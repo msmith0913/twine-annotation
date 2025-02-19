@@ -29,9 +29,12 @@ document.addEventListener("DOMContentLoaded", async function () {
   //createScrollyContentFromCSVFile();
   try {
     const allScrollyData = await fetchAllDataFromGoogleSheet();
+    allScrollyData.storyData.validate(
+      "Reading Google Sheet story tab (first sheet)"
+    );
     validateStepDataArray(
       allScrollyData.stepData,
-      "Reading Google Sheet steps tab"
+      "Reading Google Sheet steps tab (2nd sheet)"
     );
     createAllScrollyContentInHTML(allScrollyData);
   } catch (scrollyError) {
@@ -56,6 +59,11 @@ function createStoryContentInHtml(storyData) {
 
   const endText = document.getElementById("end-text");
   endText.innerHTML = storyData.endText;
+
+  const article = document.querySelector("article");
+  const stickyContent = document.querySelector(".sticky-content");
+  article.style.width = `${storyData.textHorizontalPercentage}%`;
+  stickyContent.style.width = `${100 - storyData.textHorizontalPercentage}%`;
 }
 
 /* This creates all the steps in HTML for the scrolly story 

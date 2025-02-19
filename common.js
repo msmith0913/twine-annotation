@@ -8,14 +8,55 @@ export class ScrollyData {
 }
 
 export class StoryData {
-  constructor(scrollType, title, subtitle, endText, footer) {
+  constructor(
+    scrollType,
+    title,
+    subtitle,
+    endText,
+    textHorizontalPercentage,
+    footer
+  ) {
     this.scrollType = DOMPurify.sanitize(scrollType);
     this.title = DOMPurify.sanitize(title);
     this.subtitle = DOMPurify.sanitize(subtitle);
     this.endText = DOMPurify.sanitize(endText);
+    this.textHorizontalPercentage = DOMPurify.sanitize(
+      textHorizontalPercentage
+    );
+    this.textHorizontalPercentage = stripPercentageCharIfExists(
+      this.textHorizontalPercentage
+    );
     this.footer = DOMPurify.sanitize(footer);
   }
+
+  validate(actionTextIfError) {
+    if (
+      doesValueExist(this.textHorizontalPercentage) &&
+      (!isNumber(this.textHorizontalPercentage) ||
+        (this.textHorizontalPercentage > 99 &&
+          this.textHorizontalPercentage < 1))
+    ) {
+      throw new ScrollyError(
+        actionTextIfError,
+        `Invalid TextHorizontalPercentage value "${this.textHorizontalPercentage}"`,
+        `This determines the percentage of the horizontal space the text will take up, and if specified, must be a number between 1 and 99`
+      );
+    }
+  }
 }
+
+function isNumber(value) {
+  return !isNaN(value);
+}
+
+function doesValueExist(value) {
+  return value != null && value != "";
+}
+
+function stripPercentageCharIfExists(str) {
+  return str.endsWith("%") ? str.slice(0, -1) : str;
+}
+
 export class StepData {
   constructor(
     contentType,
