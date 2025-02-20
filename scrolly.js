@@ -60,10 +60,22 @@ function createStoryContentInHtml(storyData) {
   const endText = document.getElementById("end-text");
   endText.innerHTML = storyData.endText;
 
-  const article = document.querySelector("article");
-  const stickyContent = document.querySelector(".sticky-content");
-  article.style.width = `${storyData.textHorizontalPercentage}%`;
-  stickyContent.style.width = `${100 - storyData.textHorizontalPercentage}%`;
+  setHorizontalWidthOfTextAndStickyContent(storyData.textHorizontalPercentage);
+}
+
+function setHorizontalWidthOfTextAndStickyContent(horizontalPercentage) {
+  if (horizontalPercentage < 99 && horizontalPercentage > 1) {
+    // Width is specified as a percentage of the horizontal spacce for the text
+    const article = document.querySelector("article");
+    article.style.width = `${horizontalPercentage}%`;
+
+    // Sticky content is the remaining horizontal space, but we have to account
+    // for each kind of sticky content
+    const stickyContent = document.querySelectorAll(".sticky-content");
+    stickyContent.forEach((stickyContentDiv) => {
+      stickyContentDiv.style.width = `${100 - horizontalPercentage}%`;
+    });
+  }
 }
 
 /* This creates all the steps in HTML for the scrolly story 
