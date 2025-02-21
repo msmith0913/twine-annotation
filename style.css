@@ -35,7 +35,7 @@ a {
 }
 
 #outro {
-  margin-top: 3rem;
+  margin: 3rem;
   min-height: 640px;
   display: flex;
   align-items: center;
