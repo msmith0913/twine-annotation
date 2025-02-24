@@ -23,7 +23,6 @@
   top: 12.5vh;
   height: 75vh;
   width: 75%;
-
 }
 
 #sticky-image-container {
@@ -105,5 +104,5 @@ article {
 .step p {
   text-align: center;
   padding: 1rem;
-  font-size: 1.5rem;
+  font-size: clamp(10px, 3.5vw, 24px);
 }
