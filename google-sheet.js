@@ -108,10 +108,23 @@ function convertGoogleSheetDataToScrollyData(sheetsArray) {
 
 function convertGoogleSheetDataToStoryData(values) {
   // There's only one (valid) row of data in the Story sheet, on the 2nd row (first row is header)
-  // TODO catch errors, such as invalid values -- that should probably go in common.js, where logic can be shared
-  const [scrollType, title, subtitle, endText, footer] = values[1];
+  const [
+    scrollType,
+    title,
+    subtitle,
+    endText,
+    textHorizontalPercentage,
+    footer,
+  ] = values[1];
 
-  return new StoryData(scrollType, title, subtitle, endText, footer);
+  return new StoryData(
+    scrollType,
+    title,
+    subtitle,
+    endText,
+    textHorizontalPercentage,
+    footer
+  );
 }
 
 function convertGoogleSheetDataToStepDataArray(values) {
