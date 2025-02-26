@@ -1,4 +1,4 @@
-import { ScrollyData, StoryData, StepData, ScrollyError } from "./common.js";
+import { editionData, twineData, lineData, ScrollyError } from "./common.js";
 
 // The Google Sheet below is a template. You can copy it to your Google Drive and use it to create your own scroll story.
 // Use the URL from the browser address bar replacing the one below.
@@ -24,9 +24,9 @@ const googleSheetURL =
 // 7. Copy the key and replace the one below
 const googleApiKey = "AIzaSyDY8bg45rGLpL4UsIKsDWh0bVec6wueFHs";
 
-const sheetNames = ["Story", "Steps"];
-const storyIndex = 0;
-const stepsIndex = 1;
+const sheetNames = ["annotations", "global"];
+const twineIndex = 0;
+const lineIndex = 1;
 
 const spreadsheetId = extractSpreadsheetIDFromURL(googleSheetURL);
 function extractSpreadsheetIDFromURL(url) {
@@ -59,7 +59,7 @@ export async function fetchAllDataFromGoogleSheet() {
       throwErrorFromGoogleSheetResponse(responseJson.error);
     }
 
-    return convertGoogleSheetDataToScrollyData(responseJson);
+    return convertGoogleSheetDataToEditionData(responseJson);
   } catch (error) {
     // Convert error to ScrollyError if it is not already
     if (!(error instanceof ScrollyError)) {
@@ -94,61 +94,51 @@ function throwMissingSheetNameErrorIfExists(responseError) {
   });
 }
 
-function convertGoogleSheetDataToScrollyData(sheetsArray) {
-  const storyData = convertGoogleSheetDataToStoryData(
-    sheetsArray.valueRanges[storyIndex].values
+function convertGoogleSheetDataToEditionData(sheetsArray) {
+  const twineData = convertGoogleSheetDataToTwineData(
+    sheetsArray.valueRanges[globalIndex].values
   );
-  //console.log(JSON.stringify(storyData));
+  //console.log(JSON.stringify(twineData));
 
-  const stepDataArray = convertGoogleSheetDataToStepDataArray(
-    sheetsArray.valueRanges[stepsIndex].values
+  const lineDataArray = convertGoogleSheetDataToLineDataArray(
+    sheetsArray.valueRanges[annotationsIndex].values
   );
-  return new ScrollyData(storyData, stepDataArray);
+  return new editionData(twineData, lineDataArray);
 }
 
-function convertGoogleSheetDataToStoryData(values) {
+function convertGoogleSheetDataToTwineData(values) {
   // There's only one (valid) row of data in the Story sheet, on the 2nd row (first row is header)
   const [
-    scrollType,
     title,
-    subtitle,
-    endText,
-    textHorizontalPercentage,
-    footer,
+    author,
+    editor,
+    license,
   ] = values[1];
 
-  return new StoryData(
-    scrollType,
+  return new twineData(
     title,
-    subtitle,
-    endText,
-    textHorizontalPercentage,
-    footer
+    author,
+    editor,
+    license
   );
 }
 
-function convertGoogleSheetDataToStepDataArray(values) {
+function convertGoogleSheetDataToLineDataArray(values) {
   values.shift(); // remove the header row  TODO: Catch error if no header row & verify header row is valid
 
-  const stepDataArray = values.map((row) => {
+  const lineDataArray = values.map((row) => {
     const [
-      contentType,
-      filePath,
-      altText,
-      latitude,
-      longitude,
-      zoomLevel,
-      text,
+      lineID,
+      lineType,
+      line,
+      annotation,
     ] = row;
-    return new StepData(
-      contentType,
-      filePath,
-      altText,
-      latitude,
-      longitude,
-      zoomLevel,
-      text
+    return new lineData(
+      lineID,
+      lineType,
+      line,
+      annotation
     );
   });
-  return stepDataArray;
+  return lineDataArray;
 }
