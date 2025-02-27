@@ -1,86 +1,56 @@
-import { StepData } from "./common.js";
+import { lineData } from "./common.js";
 import { ScrollyError } from "./common.js";
-import { validateStepDataArray } from "./common.js";
+import { validateLineDataArray } from "./common.js";
 
 import { fetchAllDataFromGoogleSheet } from "./google-sheet.js";
 
 let main = null;
-let scrolly = null;
-let stickyImageContainer = null;
-let stickyMapContainer = null;
-let stickyVideoContainer = null;
-let story = null;
-let steps = null;
-let prevStepData = null;
-
-const transitionInMilliseconds = 500;
-
-// initialize the scrollama
-let scroller = scrollama();
+let edition = null;
+let twine = null;
+let lines = null;
+let prevLineData = null;
 
 document.addEventListener("DOMContentLoaded", async function () {
   main = document.querySelector("main");
-  scrolly = main.querySelector("#scrolly-container");
-  stickyImageContainer = scrolly.querySelector("#sticky-image-container");
-  stickyMapContainer = scrolly.querySelector("#sticky-map-container");
-  stickyVideoContainer = scrolly.querySelector("#sticky-video-container");
-  story = scrolly.querySelector("article");
+  edition = main.querySelector("#edition-container");
+  twine = edition.querySelector("story");
 
-  //createScrollyContentFromCSVFile();
+  //createEditionContentFromCSVFile();
   try {
-    const allScrollyData = await fetchAllDataFromGoogleSheet();
-    allScrollyData.storyData.validate(
+    const allEditionData = await fetchAllDataFromGoogleSheet();
+    allEditionData.twineData.validate(
       "Reading Google Sheet story tab (first sheet)"
     );
-    validateStepDataArray(
-      allScrollyData.stepData,
+    validateLineDataArray(
+      allEditionData.lineData,
       "Reading Google Sheet steps tab (2nd sheet)"
     );
-    createAllScrollyContentInHTML(allScrollyData);
+    createAllEditionContentInHTML(allEditionData);
   } catch (scrollyError) {
     displayThenThrowError(scrollyError);
   }
 });
 
-function createAllScrollyContentInHTML(allScrollyData) {
-  createStoryContentInHtml(allScrollyData.storyData);
-  createStepsContentInHtml(allScrollyData.stepData);
+function createAllEditionContentInHTML(allEditionData) {
+  createTwineContentInHtml(allEditionData.twineData);
+  createLineContentInHtml(allEditionData.lineData);
 }
 
-function createStoryContentInHtml(storyData) {
-  const storyTitle = document.getElementById("story-title");
-  storyTitle.innerHTML = storyData.title;
+function createTwineContentInHtml(twineData) {
+  const twineTitle = document.getElementById("twine-title");
+  twineTitle.innerHTML = twineData.title;
 
   const browserTitle = document.getElementById("browser-title");
-  browserTitle.innerHTML = storyData.title;
+  browserTitle.innerHTML = twineData.title;
 
-  const subtitle = document.getElementById("subtitle");
-  subtitle.innerHTML = storyData.subtitle;
+  const author = document.getElementById("author");
+  author.innerHTML = twineData.author;
 
-  const endText = document.getElementById("end-text");
-  endText.innerHTML = storyData.endText;
+  const editor = document.getElementById("editor");
+  editor.innerHTML = twineData.editor;
 
-  setHorizontalWidthOfTextAndStickyContent(storyData.textHorizontalPercentage);
-}
-
-function setHorizontalWidthOfTextAndStickyContent(horizontalPercentage) {
-  if (horizontalPercentage < 99 && horizontalPercentage > 1) {
-    // Width is specified as a percentage of the horizontal spacce for the text
-    const article = document.querySelector("article");
-    article.style.width = `${horizontalPercentage}%`;
-
-    // Sticky content is the remaining horizontal space, but we have to account
-    // for each kind of sticky content
-    const stickyContent = document.querySelectorAll(".sticky-content");
-    stickyContent.forEach((stickyContentDiv) => {
-      stickyContentDiv.style.width = `${100 - horizontalPercentage}%`;
-    });
-  }
-}
-
-/* This creates all the steps in HTML for the scrolly story 
-    from a stepDataArry 
-*/
+// this is where I left off editing, 2/27/25; update IDs in index.html
+  
 function createStepsContentInHtml(stepDataArray) {
   var stepNumber = 1;
   stepDataArray.forEach((stepData) => {
